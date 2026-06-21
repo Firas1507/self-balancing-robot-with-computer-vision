@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Self-Balancing Two-Wheeled Robot — ROS 2 Humble + Gazebo Classic 11
 
 ## 1. STL analysis (how each part was identified)
@@ -139,3 +140,6 @@ plugin's odometry. `base_link → {left,right}_wheel_link` comes from
   you have or want a more detailed wheel design, swap the STL files —
   the URDF references them by filename only and doesn't otherwise care
   about surface detail.
+=======
+# self-balancing-robot-with-computer-vision
+>>>>>>> 27a12f72c41a7ca0806f101f4c01bca5c1707fc5
