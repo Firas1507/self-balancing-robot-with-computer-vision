@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Self-Balancing Two-Wheeled Robot — ROS 2 Humble + Gazebo Classic 11
 
 ## 1. STL analysis (how each part was identified)
@@ -117,29 +116,5 @@ plugin's odometry. `base_link → {left,right}_wheel_link` comes from
 `robot_state_publisher`, fed live joint states from the Gazebo
 `joint_state_publisher` plugin.
 
-## 6. Known limitations / things you may want to revisit
-
-- The reference balance controller (`balance_controller.py`) uses
-  starting-point PD gains (kp=95, kd=50) — these are **not tuned** for the
-  exact mass/inertia in `base.xacro`; you'll likely need to adjust them
-  in simulation.
-- The LQR controller (`lqr_controller.py`) gains were originally derived
-  for a mass model that didn't match this chassis; they've since been
-  recomputed from the actual `frame_mass`/`wheel_mass`/`frame_z` values in
-  `balancer_robot.xacro` and `base.xacro` (see the comment in that file
-  for the derivation and the resulting closed-loop eigenvalues). These
-  are correctness-fixed, not hand-tuned — you may still want to adjust
-  the LQR `Q`/`R` weighting in simulation for response feel.
-- `bracket_arm.stl` (Pièce4) has a pivot hole in the original geometry
-  but nothing in this task's scope tells it what it should pivot
-  against, so it's mounted rigidly. If it was meant to be a moving
-  part (e.g., a sensor tilt mechanism), let me know what it should
-  articulate against and I'll add a joint for it.
-- The two wheel meshes are placeholder-but-correct cylinders, not a
-  scan/CAD model of a real wheel (no tread pattern, hub bolts, etc.). If
-  you have or want a more detailed wheel design, swap the STL files —
-  the URDF references them by filename only and doesn't otherwise care
-  about surface detail.
-=======
 # self-balancing-robot-with-computer-vision
 >>>>>>> 27a12f72c41a7ca0806f101f4c01bca5c1707fc5
