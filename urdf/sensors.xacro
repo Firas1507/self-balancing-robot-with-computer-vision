@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="imu_link">
+
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.01"/>
+      </geometry>
+      <material name="bracket_orange"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.01"/>
+      <xacro:box_inertia mass="0.01" x="0.02" y="0.02" z="0.01"/>
+    </inertial>
+
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.12" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>200</update_rate>
+      <visualize>false</visualize>
+
+      <imu>
+        <angular_velocity>
+          <noise type="gaussian"><mean>0.0</mean><stddev>0.0001</stddev></noise>
+        </angular_velocity>
+
+        <linear_acceleration>
+          <noise type="gaussian"><mean>0.0</mean><stddev>0.01</stddev></noise>
+        </linear_acceleration>
+      </imu>
+
+      <!-- Gazebo Classic ROS bridge: without this plugin the sensor
+           data never reaches a ROS topic. Remapped to /imu to match
+           what balance_controller.py and lqr_controller.py subscribe to. -->
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <namespace>/</namespace>
+          <remapping>~/out:=imu</remapping>
+        </ros>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+
+    </sensor>
+  </gazebo>
+
+</robot>

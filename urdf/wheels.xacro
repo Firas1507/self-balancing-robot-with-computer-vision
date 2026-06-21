@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="wheel" params="prefix y_reflect mesh_file">
+
+    <link name="${prefix}_wheel_link">
+
+      <!-- VISUAL -->
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 3.14159265359"/>
+        <geometry>
+          <mesh filename="package://robot_description/meshes/${mesh_file}"
+                scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="wheel_black"/>
+      </visual>
+
+      <!-- COLLISION -->
+      <collision>
+        <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}"
+                    length="${wheel_width}"/>
+        </geometry>
+      </collision>
+
+      <!-- INERTIAL (keep realistic but stable) -->
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${wheel_mass}"/>
+
+        <inertia
+          ixx="${(wheel_mass*(3*wheel_radius*wheel_radius + wheel_width*wheel_width))/12.0}"
+          iyy="${(wheel_mass*wheel_radius*wheel_radius)/2.0}"
+          izz="${(wheel_mass*(3*wheel_radius*wheel_radius + wheel_width*wheel_width))/12.0}"
+          ixy="0.0"
+          ixz="0.0"
+          iyz="0.0"/>
+      </inertial>
+
+    </link>
+
+    <!-- WHEEL JOINT (FIXED) -->
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel_link"/>
+
+      <origin xyz="0 ${y_reflect * track_width / 2.0} 0"
+              rpy="0 0 0"/>
+
+      <!-- Rolling axis: the wheel collision cylinder's axis is Y
+           (it's rotated 90 deg about X below), so the joint must
+           rotate about Y too, or the wheel spins in place instead
+           of rolling. -->
+      <axis xyz="0 1 0"/>
+
+      <!-- 🔴 FIX: stable dynamics -->
+      <dynamics damping="0.01"
+                friction="0.05"/>
+    </joint>
+
+    <!-- GAZEBO PHYSICS (FIXED) -->
+    <gazebo reference="${prefix}_wheel_link">
+
+      <!-- ground friction (reduced for stability) -->
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+
+      <!-- contact parameters -->
+      <kp>1000000.0</kp>
+      <kd>1.0</kd>
+
+      <slip1>0.0</slip1>
+      <slip2>0.0</slip2>
+
+      <material>Gazebo/Black</material>
+
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

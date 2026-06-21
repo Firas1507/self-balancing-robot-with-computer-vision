@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot name="balancer_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- =========================
+       COMMON DEFINITIONS
+       ========================= -->
+  <xacro:include filename="$(find robot_description)/urdf/common.xacro"/>
+
+  <!-- =========================
+       CORE PROPERTIES (FIXED)
+       ========================= -->
+
+  <!-- Wheels (kept stable for balancing) -->
+  <xacro:property name="wheel_radius" value="0.1"/>
+  <xacro:property name="wheel_width"  value="0.02"/>
+  <xacro:property name="wheel_mass"   value="0.6"/>
+
+  <!-- Track width -->
+  <xacro:property name="track_width" value="0.18"/>
+
+  <!-- Chassis (IMPORTANT: slightly heavier + stable ratio) -->
+  <xacro:property name="frame_x" value="0.18"/>
+  <xacro:property name="frame_y" value="0.10"/>
+  <xacro:property name="frame_z" value="0.12"/>
+  <xacro:property name="frame_mass" value="1.5"/>
+
+  <!-- Wheel axle height -->
+  <xacro:property name="axle_height" value="${wheel_radius}"/>
+
+  <!-- =========================
+       INCLUDE FILES (ORDER FIXED)
+       ========================= -->
+
+  <xacro:include filename="$(find robot_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/macros.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/base.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/wheels.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/sensors.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/gazebo.xacro"/>
+
+  <!-- =========================
+       WHEELS ASSEMBLY
+       ========================= -->
+
+  <xacro:wheel
+      prefix="left"
+      y_reflect="1"
+      mesh_file="wheel_right.stl"/>
+
+  <xacro:wheel
+      prefix="right"
+      y_reflect="-1"
+      mesh_file="wheel_left.stl"/>
+
+</robot>

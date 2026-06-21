@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="common.xacro"/>
+  <!-- =========================
+       BASE LINK (clean rigid chassis)
+       ========================= -->
+  <link name="base_link">
+    <!-- MAIN FRAME -->
+    <visual>
+      <origin xyz="0.025 -0.075 -0.01" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/main_frame.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="frame_grey"/>
+    </visual>
+    <!-- SIDE PANEL -->
+    <visual>
+      <origin xyz="0.025 -0.075 -0.01" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/side_panel.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="frame_grey"/>
+    </visual>
+    <!-- BOTTOM SHELF (at axle height) -->
+    <visual>
+      <origin xyz="0.025 -0.075 -0.01" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/shelf_panel_b.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="panel_dark"/>
+    </visual>
+    <!-- TOP SHELF -->
+    <visual>
+      <origin xyz="0.025 -0.075 0.174" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/shelf_panel_a.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="panel_dark"/>
+    </visual>
+    <!-- BASE PLATE (underside) -->
+    <visual>
+      <origin xyz="0.025 -0.075 -0.013" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/base_plate.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="frame_grey"/>
+    </visual>
+    <!-- BRACKET (face piece, relative to frame center) -->
+    <visual>
+      <origin xyz="0.015 -0.075 -0.01" rpy="1.5707963 0 1.5707963"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/bracket_arm.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="bracket_orange"/>
+    </visual>
+    <!-- COLLISION -->
+    <collision>
+      <origin xyz="0.025 -0.075 ${frame_z / 2.0 - 0.01}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${frame_x} ${frame_y} ${frame_z}"/>
+      </geometry>
+    </collision>
+    <!-- INERTIAL -->
+    <inertial>
+      <origin xyz="0.025 -0.075 ${frame_z / 2.0 - 0.01}" rpy="0 0 0"/>
+      <mass value="${frame_mass}"/>
+      <xacro:box_inertia mass="${frame_mass}"
+                          x="${frame_x}"
+                          y="${frame_y}"
+                          z="${frame_z}"/>
+    </inertial>
+  </link>
+</robot>

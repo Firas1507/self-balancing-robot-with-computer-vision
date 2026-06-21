@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="balancer_world">
+
+    <!-- Physics (IMPORTANT for balance stability) -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Gravity (correct for balancing robot) -->
+    <gravity>0 0 -9.8</gravity>
+
+    <!-- Ground -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Light -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Reduce simulation noise -->
+    <magnetic_field>0 0 0</magnetic_field>
+
+    <!-- Optional but helps stability -->
+    <wind>0 0 0</wind>
+
+  </world>
+</sdf>

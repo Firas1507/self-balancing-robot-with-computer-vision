@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="common.xacro"/>
+
+  <!-- =========================
+       DIFF DRIVE PLUGIN (Gazebo Classic 11)
+       ========================= -->
+  <gazebo>
+
+    <plugin name="diff_drive_controller" filename="libgazebo_ros_diff_drive.so">
+
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+
+      <wheel_separation>${track_width}</wheel_separation>
+      <wheel_diameter>${2.0 * wheel_radius}</wheel_diameter>
+
+      <!-- INPUT COMMAND -->
+      <command_topic>cmd_vel</command_topic>
+
+      <!-- OUTPUT ODOM -->
+      <odometry_topic>odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_wheel_tf>true</publish_wheel_tf>
+
+      <!-- STABILITY IMPROVEMENTS -->
+      <max_wheel_acceleration>5.0</max_wheel_acceleration>
+      <max_wheel_torque>20.0</max_wheel_torque>
+
+      <update_rate>100.0</update_rate>
+
+    </plugin>
+
+  </gazebo>
+
+  <!-- =========================
+       BASE FRICTION (STABLE)
+       ========================= -->
+  <gazebo reference="base_link">
+
+    <material>Gazebo/Grey</material>
+
+    <!-- reduced friction for smoother balancing -->
+    <mu1>0.8</mu1>
+    <mu2>0.8</mu2>
+
+    <!-- better contact stability -->
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+
+  </gazebo>
+
+</robot>
